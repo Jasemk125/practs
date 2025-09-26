@@ -1,0 +1,333 @@
+Simulate a brainstorming session between three senior software developers, each with 15+ years of experience, from top tech countries (e.g., USA, Germany, Japan).
+
+These developers must:
+
+Collaboratively design 5 high-level architecture and implementation ideas for building a secure, scalable, and testable Java web application using:
+
+Java 8
+
+Spring MVC
+
+JSF with XHTML templating
+
+Tomcat as the servlet container
+
+JSON files as the data source (no relational database)
+
+Bootstrap 5 with complete UI component theming support
+
+Test and discuss the viability of each idea with respect to:
+
+Security
+
+Maintainability
+
+Scalability
+
+JSON data handling
+
+Testability
+
+UI theming
+
+Narrow it down to the top 3 implementation ideas with full pros and cons, and rationale.
+
+Project Goal
+
+Build a secure, role-based web application using:
+
+Java 8
+
+Spring MVC
+
+JSF (with XHTML templating)
+
+Bootstrap 5 for frontend UI
+
+Tomcat (servlet container)
+
+JSON files as the data source
+
+Admin-configurable Bootstrap 5 UI theming system
+
+Functional Requirements
+
+Login Page (login.xhtml)
+
+Fields: username, password
+
+On success:
+
+Load user’s JWT from jwt.json
+
+Create session entry in sessions.json
+
+Redirect:
+
+admin → /admin.xhtml
+
+user → /dashboard.xhtml
+
+On failure:
+
+Display hidden error message: "username or password is not correct"
+
+User Dashboard
+
+View available products
+
+Add products to cart
+
+Place orders
+
+View order history and statuses
+
+View and update profile
+
+Reset password
+
+View user-specific notifications from notifications_user_{jwt}.json
+
+Admin Dashboard
+
+Manage users and their roles
+
+Reset user passwords
+
+Manage and approve orders
+
+View and filter orders by user, status, and date
+
+View active sessions, expiration, and force logout
+
+View system-wide notifications from notifications_admin.json
+
+Configure and save UI themes via a form that updates theme_config.json
+
+JavaBeans and Service Responsibilities
+
+Implement ManagedBeans or Spring services for:
+
+LoginBean: Authenticates user, loads JWT, creates session
+
+SessionBean: Manages sessions, expiration, refresh, logout
+
+UserBean: Loads and updates profile, order history, cart
+
+OrderBean: Handles orders and product retrieval
+
+NotificationBean: Manages notifications, read/unread status
+
+AdminBean: Role management, session control, logs
+
+ThemeBean: Loads and saves theme configuration from theme_config.json
+
+Security Requirements
+
+JWT validation on all requests
+
+Role-based page access enforcement
+
+Session expiration and refresh logic from sessions.json
+
+Encrypt sensitive fields in JSON (credentials, IPs, etc.)
+
+JSON File Structure
+
+jwt.json: username → JWT with encrypted credentials and role
+
+sessions.json: active sessions with timestamps, IP, browser, device, expiration
+
+user_{jwt}.json: user-specific data: cart, profile, orders
+
+user_logs.json: all user actions, clicks, page views
+
+admin_logs.json: admin actions, role changes, session controls
+
+notifications_user_{jwt}.json: per-user alerts
+
+notifications_admin.json: global admin alerts and logs
+
+theme_config.json: UI configuration for Bootstrap components
+
+theme_history.json: historical UI themes (optional)
+
+UI and Theming Requirements
+
+Use Bootstrap 5 throughout all pages
+
+Components must support admin-defined theming
+
+Theming system must support:
+
+Buttons
+
+Cards
+
+Modals
+
+Forms
+
+Tables
+
+Accordions
+
+Alerts
+
+Navbars
+
+Spinners
+
+Example configuration keys in theme_config.json:
+
+{
+  "themeName": "dark-blue",
+  "primaryColor": "#0d6efd",
+  "buttonClass": "btn btn-outline-primary",
+  "cardClass": "card shadow-sm",
+  "modalClass": "modal fade",
+  "formClass": "form-control",
+  "tableClass": "table table-bordered table-hover",
+  "alertTypeMap": {
+    "info": "alert alert-info",
+    "success": "alert alert-success",
+    "error": "alert alert-danger",
+    "warning": "alert alert-warning"
+  },
+  "navbarClass": "navbar navbar-dark bg-dark",
+  "spinnerClass": "spinner-border text-primary"
+}
+
+
+Themes must be loaded dynamically by ThemeBean and used in all JSF templates through expression bindings like #{themeBean.theme.buttonClass}.
+
+Admins must be able to update these values through admin.xhtml, which updates theme_config.json.
+
+A fallback theme must load if the config file is missing or invalid.
+
+UI Components Required
+
+Splash screen with Bootstrap spinner (splash.xhtml)
+
+Login form (login.xhtml)
+
+Admin dashboard with theme editor
+
+User dashboard with product and order management
+
+Table layouts for orders and logs
+
+Bootstrap cards, modals, accordions, alerts, navbars
+
+Loading states and asynchronous feedback for large JSON loads
+
+Testing Scenarios
+
+Successful and failed login
+
+Expired or tampered JWT
+
+Unauthorized access to role-protected pages
+
+Session refresh and logout
+
+Theme change persistence
+
+Edge cases:
+
+Missing JSON files
+
+Malformed or corrupted JSON
+
+Concurrent logins and browser spoofing
+
+Fallback theme behavior
+
+Folder and Package Structure
+/src/main/java
+└── /com/example/app/
+    ├── /auth
+    ├── /session
+    ├── /user
+    ├── /order
+    ├── /admin
+    ├── /notification
+    ├── /theme
+    ├── /security
+    ├── /json
+    └── /util
+
+/src/main/resources
+└── /json/
+    ├── jwt.json
+    ├── sessions.json
+    ├── user_logs.json
+    ├── theme_config.json
+
+/src/main/webapp
+├── /pages/
+│   ├── login.xhtml
+│   ├── dashboard.xhtml
+│   ├── admin.xhtml
+│   ├── splash.xhtml
+│   └── /includes/
+│       ├── header.xhtml
+│       ├── footer.xhtml
+│       └── nav.xhtml
+├── /resources/
+│   ├── /css/
+│   │   ├── bootstrap.min.css
+│   │   └── theme.css
+│   ├── /js/
+│   │   └── bootstrap.bundle.min.js
+│   └── /images/
+
+Deliverables
+
+List of 5 high-level architecture and implementation strategies
+
+Final 3 selected ideas with pros, cons, and testing rationale
+
+Full Java project package and folder structure
+
+Sample JSON data for:
+
+jwt.json
+
+sessions.json
+
+user_logs.json
+
+user_{jwt}.json
+
+theme_config.json
+
+notifications_user_{jwt}.json
+
+notifications_admin.json
+
+JavaBeans:
+
+LoginBean
+
+SessionBean
+
+NotificationBean
+
+ThemeBean
+
+JSF pages:
+
+login.xhtml
+
+admin.xhtml with form to manage theme_config.json
+
+dashboard.xhtml
+
+splash.xhtml with spinner loader
+
+JSF layout using Bootstrap 5 and theme-based bindings for all UI components
+
+Navigation and access control based on user role
+
+Splash screen and loading indicators for data operations
